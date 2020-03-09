@@ -6,7 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -25,12 +25,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-    public static final int DEFAULT_UDP_PORT = 14593;
+    private static final int DEFAULT_UDP_PORT = 14593;
     private int port = DEFAULT_UDP_PORT;
     private SensorManager mSensorManager;
     //private Sensor mPressure, mLight, mGravity, mAcceleration, mProximity, mMagneticField, mStepCounter;
     private List<Sensor> sensorList;
-    private List<CheckBox> checkBoxList = new ArrayList<>();
+    private final List<CheckBox> checkBoxList = new ArrayList<>();
     private EditText udpPortView;
 
     @Override
@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Log.d("MINE", "Step counter: " + event.values[0]);
                 break;
         }
-
     }
 
 
@@ -188,16 +187,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     // Networking must be done in a background thread/task
-    class UdpBroadCaster extends AsyncTask<UdpBroadCaster.MessagePort, Void, Void> {
+    static class UdpBroadCaster extends AsyncTask<UdpBroadCaster.MessagePort, Void, Void> {
 
-        public class MessagePort {
-            public MessagePort(String message, int port) {
+        class MessagePort {
+            MessagePort(String message, int port) {
                 this.message = message;
                 this.port = port;
             }
 
-            public String message;
-            public int port;
+            final String message;
+            final int port;
         }
 
         @Override
